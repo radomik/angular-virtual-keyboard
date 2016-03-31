@@ -198,7 +198,7 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
    *
    */
   self.attachVki = function(elem) {
-    if (elem.getAttribute("VKI_attached")) return false;
+    if (elem.getAttribute("VKI_attached") || elem.readOnly) return false;
     if (self.VKI_imageURI) {
       var keybut = document.createElement('img');
           keybut.src = self.VKI_imageURI;
@@ -786,6 +786,7 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
    *
    */
   this.VKI_show = function(elem) {
+    if (elem.readOnly) return false;
     if (!this.VKI_target) {
       this.VKI_target = elem;
       if (this.VKI_langAdapt && this.VKI_target.lang) {

@@ -11,6 +11,23 @@ var path = {
 	}
 }
 
+var bower = require('gulp-bower');
+
+gulp.task('bower', function() {
+	return bower();
+});
+
+var server = require('gulp-server-livereload');
+
+gulp.task('webserver', function() {
+	gulp.src('./dist')
+		.pipe(server({
+			open: true,
+			livereload: true
+		}
+	));
+});
+
 gulp.task('jshint', function(done) {
 	gulp.src(path.src.files)
 	.pipe(plugins.jshint('.jshintrc'))
@@ -48,15 +65,31 @@ gulp.task('build', function() {
 	.pipe(gulp.dest('./release/'))
 	.pipe(plugins.uglify())
 	.pipe(plugins.concat('angular-virtual-keyboard.min.js'))
-	.pipe(gulp.dest('./release/'));
+	.pipe(gulp.dest('./release/'))
+	.pipe(gulp.dest('./dist/scripts'));
+
+	gulp.src('./demo/index.html')
+	.pipe(gulp.dest('./dist/'))
+
+	gulp.src('./demo/vki.html')
+	.pipe(gulp.dest('./dist/'))
+
+	gulp.src('./demo/*.png')
+	.pipe(gulp.dest('./dist/'))
 
 	gulp.src('css/angular-virtual-keyboard.css')
-	.pipe(gulp.dest('./release/'));
+	.pipe(gulp.dest('./release/'))
+	.pipe(gulp.dest('./dist/css/'));
+
+	gulp.src('bower_components/angular-useragent-parser/release/angular-useragent-parser.min.js')
+	.pipe(gulp.dest('./dist/bower_components/angular-useragent-parser/release/'))
 });
 
-gulp.task('default', ['jshint', 'build'], function() {
+gulp.task('default', ['bower', 'jshint', 'build', 'webserver'], function() {
 	gulp.watch(path.src.files, ['jshint', 'build']);
 });
+
+
 
 gulp.task('changelog', function(done) {
 	var pkg = require('./bower.json');
