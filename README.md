@@ -40,6 +40,19 @@ _Obs.: Required to auto-hide the keyboard interface in mobile devices or to use 
 <input type='text' ng-model="yourModel" ng-virtual-keyboard/>
 ```
 
+## Development use
+
+Clone or fork repository, then in parent project directory execute:
+```sh
+$ npm install
+$ gulp default
+```
+
+Note: Gulp must be installed globally:
+```sh
+$ sudo npm install -g gulp
+```
+
 ## Supported Configurations
 
 ### Directive global configurations
